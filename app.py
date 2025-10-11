@@ -54,7 +54,7 @@ with col2:
         return f'color: {colour}'
 
     #----DISPLAY DATA TABLE----#
-    st.dataframe(df.tail().style.applymap(daily_change_colour, subset=['Daily Change %']))
+    st.dataframe(df.tail().style.applymap(daily_change_colour, subset=['Daily Change %']), use_container_width=True, height = 300)
 
     #----CONVERT TO CSV----#
     csv = df.to_csv(index=False).encode('utf-8')
