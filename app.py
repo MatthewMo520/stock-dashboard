@@ -43,7 +43,7 @@ def daily_change_colour(val):
         colour = 'red'
     else:
         colour = 'black'
-    return f'colour: {colour}'
+    return f'color: {colour}'
 
 #----DISPLAY DATA TABLE----#
 st.subheader("Recent Data")
