@@ -68,6 +68,8 @@ with col2:
 #----PERFORMANCED SUMMARY----#
 st.subheader("Performance Summary")
 if not df['Daily Change %'].dropna().empty:
+
+    #----CALCULATE METRICS----#
     avg_daily_return = df['Daily Change %'].mean()
     volatility = df['Daily Change %'].std()
     total_return = ((df['Close'].iloc[-1] / df['Close'].iloc[0]) - 1) * 100
@@ -75,21 +77,33 @@ if not df['Daily Change %'].dropna().empty:
     drawdown = ((df['Close'] - rolling_max) / rolling_max) * 100
     max_drawdown = drawdown.min()
 
+    #----DRAWDOWN CHART----#
     drawdown_fig = px.area(
         df,
         x = 'Date',
-        y = drawdown,
+        y = 'drawdown',
         title = f'{ticker} Drawdown Over Time',
         color_discrete_sequence=['red']
     )
     drawdown_fig.update_traces(fill='tozeroy')
     st.plotly_chart(drawdown_fig, use_container_width=True)
 
+    #----DISPLAY METRICS IN COLUMNS----#
     col1, col2, col3, col4 = st.columns(4)
     col1.metric(label="Average Daily Return (%)", value=f"{avg_daily_return:.2f}%")
     col2.metric(label="Volatility (Std Dev of Daily Return %)", value=f"{volatility:.2f}%")
     col3.metric(label="Total Return (%)", value=f"{total_return:.2f}%")
     col4.metric(label="Max Drawdown (%)", value=f"{max_drawdown:.2f}%")
+
+    #----CUMULATIVE RETURN CHART----#
+    df['Cumulative Return %'] = (1 + df['Close'].pct_change()).cumprod() - 1
+    cumreturn_fig = px.line(
+        df,
+        x='Date',
+        y='Cumulative Return %',
+        title=f'{ticker} Cumulative Return Over Time'
+    )
+    st.plotly_chart(cumreturn_fig, use_container_width=True)
 
 else:
     st.write("Not enough data to calculate performance metrics.")
