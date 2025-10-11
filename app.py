@@ -3,6 +3,7 @@ import pandas as pd
 import yfinance as yf
 import plotly.express as px
 
+st.set_page_config(page_title="Stock Dashboard", layout="centered")
 st.title("Stock Dashboard")
 
 #---- USER INPUT ----#
