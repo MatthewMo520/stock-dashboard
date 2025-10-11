@@ -74,14 +74,14 @@ if not df['Daily Change %'].dropna().empty:
     volatility = df['Daily Change %'].std()
     total_return = ((df['Close'].iloc[-1] / df['Close'].iloc[0]) - 1) * 100
     rolling_max = df['Close'].cummax()
-    drawdown = ((df['Close'] - rolling_max) / rolling_max) * 100
+    df['Drawdown %'] = ((df['Close'] - rolling_max) / rolling_max) * 100
     max_drawdown = drawdown.min()
 
     #----DRAWDOWN CHART----#
     drawdown_fig = px.area(
         df,
         x = 'Date',
-        y = drawdown,
+        y = 'Drawdown %',
         title = f'{ticker} Drawdown Over Time',
         color_discrete_sequence=['red']
     )
