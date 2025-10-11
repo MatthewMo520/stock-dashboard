@@ -48,3 +48,12 @@ def daily_change_colour(val):
 #----DISPLAY DATA TABLE----#
 st.subheader("Recent Data")
 st.dataframe(df.tail().style.applymap(daily_change_colour, subset=['Daily Change %']))
+
+#----CONVERT TO CSV----#
+csv = df.to_csv(index=False).encode('utf-8')
+st.download_button(
+    label="Download data as CSV",
+    data=csv,
+    file_name=f'{ticker}_data.csv',
+    mime='text/csv',
+)
