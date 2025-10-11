@@ -34,26 +34,33 @@ for ma in ma_options:
 
 #----DISPLAY CHART----#
 fig = px.line(df, x='Date', y=plot_cols, title=f'{ticker} Stock Price with Moving Averages')
-st.plotly_chart(fig)
-#----COLOUR CHANGES----#
-def daily_change_colour(val):
-    if val > 0:
-        colour = 'green'
-    elif val < 0:
-        colour = 'red'
-    else:
-        colour = 'black'
-    return f'color: {colour}'
 
-#----DISPLAY DATA TABLE----#
-st.subheader("Recent Data")
-st.dataframe(df.tail().style.applymap(daily_change_colour, subset=['Daily Change %']))
+#----COLUMN LAYOUT----#
+col1, col2 = st.columns([3, 1])
+with col1:
+    st.plotly_chart(fig, use_container_width=True)
 
-#----CONVERT TO CSV----#
-csv = df.to_csv(index=False).encode('utf-8')
-st.download_button(
-    label="Download data as CSV",
-    data=csv,
-    file_name=f'{ticker}_data.csv',
-    mime='text/csv',
-)
+with col2:
+    st.subheader("Recent Data")
+    
+    #----COLOUR CHANGES----#
+    def daily_change_colour(val):
+        if val > 0:
+            colour = 'green'
+        elif val < 0:
+            colour = 'red'
+        else:
+            colour = 'black'
+        return f'color: {colour}'
+
+    #----DISPLAY DATA TABLE----#
+    st.dataframe(df.tail().style.applymap(daily_change_colour, subset=['Daily Change %']))
+
+    #----CONVERT TO CSV----#
+    csv = df.to_csv(index=False).encode('utf-8')
+    st.download_button(
+        label="Download data as CSV",
+        data=csv,
+        file_name=f'{ticker}_data.csv',
+        mime='text/csv',
+    )
