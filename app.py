@@ -22,14 +22,29 @@ if 'Date ' in df.columns:
     df.rename(columns={'Date ': 'Date'}, inplace=True)
 
 #----CALCULATING MOVING AVERAGES AND DAILY CHANGES----#
-df['MA50'] = df['Close'].rolling(window=50).mean()
-df['MA200'] = df['Close'].rolling(window=200).mean()
+ma_options = st.multiselect("Select moving averages to display:", [20, 50, 100, 200], default=[50, 200])
+for ma in ma_options:
+    df[f'MA{ma}'] = df['Close'].rolling(window=ma).mean()
 df['Daily Change %'] = df['Close'].pct_change() * 100
 
+#----PREPARE COLUMNS FOR PLOTTING----#
+plot_cols = ['Close']
+for ma in ma_options:
+    plot_cols.append(f'MA{ma}')
+
 #----DISPLAY CHART----#
-fig = px.line(df, x='Date', y=['Close', 'MA50', 'MA200'], title=f'{ticker} Stock Price with Moving Averages')
+fig = px.line(df, x='Date', y=plot_cols, title=f'{ticker} Stock Price with Moving Averages')
 st.plotly_chart(fig)
+#----COLOUR CHANGES----#
+def daily_change_colour(val):
+    if val > 0:
+        colour = 'green'
+    elif val < 0:
+        colour = 'red'
+    else:
+        colour = 'black'
+    return f'colour: {colour}'
 
 #----DISPLAY DATA TABLE----#
 st.subheader("Recent Data")
-st.dataframe(df.tail())
+st.dataframe(df.tail().style.applymap(daily_change_colour, subset=['Daily Change %']))
