@@ -75,9 +75,21 @@ if not df['Daily Change %'].dropna().empty:
     drawdown = ((df['Close'] - rolling_max) / rolling_max) * 100
     max_drawdown = drawdown.min()
 
-    st.metric(label="Average Daily Return (%)", value=f"{avg_daily_return:.2f}%")
-    st.metric(label="Volatility (Std Dev of Daily Return %)", value=f"{volatility:.2f}%")
-    st.metric(label="Total Return (%)", value=f"{total_return:.2f}%")
-    st.metric(label="Max Drawdown (%)", value=f"{max_drawdown:.2f}%")
+    drawdown_fig = px.area(
+        df,
+        x = 'Date',
+        y = drawdown,
+        title = f'{ticker} Drawdown Over Time',
+        color_discrete_sequence=['red']
+    )
+    drawdown_fig.update_traces(fill='tozeroy')
+    st.plotly_chart(drawdown_fig, use_container_width=True)
+
+    col1, col2, col3, col4 = st.columns(4)
+    col1.st.metric(label="Average Daily Return (%)", value=f"{avg_daily_return:.2f}%")
+    col2.st.metric(label="Volatility (Std Dev of Daily Return %)", value=f"{volatility:.2f}%")
+    col3.st.metric(label="Total Return (%)", value=f"{total_return:.2f}%")
+    col4.st.metric(label="Max Drawdown (%)", value=f"{max_drawdown:.2f}%")
+
 else:
     st.write("Not enough data to calculate performance metrics.")
