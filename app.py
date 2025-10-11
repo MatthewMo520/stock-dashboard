@@ -86,10 +86,10 @@ if not df['Daily Change %'].dropna().empty:
     st.plotly_chart(drawdown_fig, use_container_width=True)
 
     col1, col2, col3, col4 = st.columns(4)
-    col1.st.metric(label="Average Daily Return (%)", value=f"{avg_daily_return:.2f}%")
-    col2.st.metric(label="Volatility (Std Dev of Daily Return %)", value=f"{volatility:.2f}%")
-    col3.st.metric(label="Total Return (%)", value=f"{total_return:.2f}%")
-    col4.st.metric(label="Max Drawdown (%)", value=f"{max_drawdown:.2f}%")
+    col1.metric(label="Average Daily Return (%)", value=f"{avg_daily_return:.2f}%")
+    col2.metric(label="Volatility (Std Dev of Daily Return %)", value=f"{volatility:.2f}%")
+    col3.metric(label="Total Return (%)", value=f"{total_return:.2f}%")
+    col4.metric(label="Max Drawdown (%)", value=f"{max_drawdown:.2f}%")
 
 else:
     st.write("Not enough data to calculate performance metrics.")
