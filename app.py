@@ -7,7 +7,7 @@ st.title("Stock Dashboard")
 
 #---- USER INPUT ----#
 ticker = st.text_input("Enter a stock ticker (e.g., AAPL, TSLA, AMZN):", "AAPL")
-period = st.selectbox("Select period:", ["1mo", "3mo", "6mo", "1y", "2y", "5y", "10y", "max"])
+period = st.selectbox("Select period:", ["1mo", "3mo", "6mo", "1y", "2y", "5y", "10y", "max"], index=3)
 interval = st.selectbox("Select interval:", ["1d", "1wk", "1mo"])
 
 #----DOWNLOAD DATA ----#
@@ -35,7 +35,7 @@ min_ma = max(ma_options) if ma_options else 0
 if len(df) < min_ma:
     st.warning(f"Not enough data to compute the selected moving averages. Please select a longer period or fewer moving averages.")
     st.stop()
-    
+
 for ma in ma_options:
     df[f'MA{ma}'] = df['Close'].rolling(window=ma).mean()
 df['Daily Change %'] = df['Close'].pct_change() * 100
