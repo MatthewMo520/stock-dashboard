@@ -3,10 +3,7 @@ import pandas as pd
 import yfinance as yf
 import plotly.express as px
 
-st.set_page_config(
-    page_title="Stock Dashboard",
-    initial_sidebar_state="expanded"
-)
+st.title("Stock Dashboard")
 
 #---- USER INPUT ----#
 ticker = st.text_input("Enter a stock ticker (e.g., AAPL, TSLA, AMZN):", "AAPL")
@@ -52,7 +49,7 @@ for ma in ma_options:
 fig = px.line(df, x='Date', y=plot_cols, title=f'{ticker} Stock Price with Moving Averages')
 
 #----COLUMN LAYOUT----#
-col1, col2 = st.columns([3, 1])
+col1, col2 = st.columns([5, 2])
 with col1:
     st.plotly_chart(fig, use_container_width=True)
 
@@ -73,7 +70,7 @@ with col2:
     st.dataframe(
         df.tail().style.applymap(daily_change_colour, subset=['Daily Change %']), 
         use_container_width=True, 
-        height = 400
+        height = 250
         )
 
     #----CONVERT TO CSV----#
