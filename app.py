@@ -75,7 +75,7 @@ if not df['Daily Change %'].dropna().empty:
     total_return = ((df['Close'].iloc[-1] / df['Close'].iloc[0]) - 1) * 100
     rolling_max = df['Close'].cummax()
     df['Drawdown %'] = ((df['Close'] - rolling_max) / rolling_max) * 100
-    max_drawdown = drawdown.min()
+    max_drawdown = df['Drawdown %'].min()
 
     #----DRAWDOWN CHART----#
     drawdown_fig = px.area(
