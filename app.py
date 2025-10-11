@@ -3,6 +3,11 @@ import pandas as pd
 import yfinance as yf
 import plotly.express as px
 
+st.set_page_config(
+    page_title="Stock Dashboard",
+    layout="wide", 
+    initial_sidebar_state="expanded"
+)
 st.title("Stock Dashboard")
 
 #---- USER INPUT ----#
@@ -67,7 +72,11 @@ with col2:
         return f'color: {colour}'
 
     #----DISPLAY DATA TABLE----#
-    st.dataframe(df.tail().style.applymap(daily_change_colour, subset=['Daily Change %']), use_container_width=True, height = 300)
+    st.dataframe(
+        df.tail().style.applymap(daily_change_colour, subset=['Daily Change %']), 
+        use_container_width=True, 
+        height = 400
+        )
 
     #----CONVERT TO CSV----#
     csv = df.to_csv(index=False).encode('utf-8')
