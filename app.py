@@ -5,10 +5,8 @@ import plotly.express as px
 
 st.set_page_config(
     page_title="Stock Dashboard",
-    layout="wide", 
     initial_sidebar_state="expanded"
 )
-st.title("Stock Dashboard")
 
 #---- USER INPUT ----#
 ticker = st.text_input("Enter a stock ticker (e.g., AAPL, TSLA, AMZN):", "AAPL")
