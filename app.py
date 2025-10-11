@@ -71,9 +71,7 @@ with col2:
 
     #----DISPLAY DATA TABLE----#
     st.dataframe(
-        df.tail().style.applymap(daily_change_colour, subset=['Daily Change %'])
-        .set_properties(**{'background-color': "white", 'border': '1px solid #ddd'})
-        .apply(lambda x: ['background-color: #f9f9f9' if i%2==0 else '' for i in range(len(x))], axis=0), 
+        df.tail().style.applymap(daily_change_colour, subset=['Daily Change %']), 
         use_container_width=True, 
         height = 250
         )
