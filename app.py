@@ -13,6 +13,11 @@ interval = st.selectbox("Select interval:", ["1d", "1wk", "1mo"])
 #----DOWNLOAD DATA ----#
 df = yf.download(ticker, period=period, interval=interval).reset_index()
 
+#----CHECK IF DATA IS EMPTY ----#
+if df.empty:
+    st.error("No data found for the given ticker. Please check the ticker symbol and try again.")
+    st.stop()
+
 #----FLATTEN COLUMNS ----#
 df.columns = [' '.join(col).strip() if isinstance(col, tuple) else col for col in df.columns]
 
@@ -21,8 +26,16 @@ if f'Close {ticker}' in df.columns:
 if 'Date ' in df.columns:
     df.rename(columns={'Date ': 'Date'}, inplace=True)
 
+
 #----CALCULATING MOVING AVERAGES AND DAILY CHANGES----#
 ma_options = st.multiselect("Select moving averages to display:", [20, 50, 100, 200], default=[50, 200])
+
+#----CHECK IF PERIOD TOO SHORT FOR MOVING AVERAGES ----#
+min_ma = max(ma_options) if ma_options else 0
+if len(df) < min_ma:
+    st.warning(f"Not enough data to compute the selected moving averages. Please select a longer period or fewer moving averages.")
+    st.stop()
+    
 for ma in ma_options:
     df[f'MA{ma}'] = df['Close'].rolling(window=ma).mean()
 df['Daily Change %'] = df['Close'].pct_change() * 100
