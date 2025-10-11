@@ -3,6 +3,8 @@ import pandas as pd
 import yfinance as yf
 import plotly.express as px
 
+#----PAGE CONFIGURATION ----#
+st.set_page_config(page_title="Stock Dashboard", initial_sidebar_state="expanded")
 st.title("Stock Dashboard")
 
 #---- USER INPUT ----#
@@ -49,9 +51,10 @@ for ma in ma_options:
 fig = px.line(df, x='Date', y=plot_cols, title=f'{ticker} Stock Price with Moving Averages')
 
 #----COLUMN LAYOUT----#
-col1, col2 = st.columns([5, 2])
+col1, col2 = st.columns([7, 3])
 with col1:
     st.plotly_chart(fig, use_container_width=True)
+    fig.update_traces(mode='lines+markers', hovertemplate='Date: %{x}<br>Price: %{y:.2f}')
 
 with col2:
     st.subheader("Recent Data")
@@ -68,7 +71,9 @@ with col2:
 
     #----DISPLAY DATA TABLE----#
     st.dataframe(
-        df.tail().style.applymap(daily_change_colour, subset=['Daily Change %']), 
+        df.tail().style.applymap(daily_change_colour, subset=['Daily Change %'])
+        .set_properties(**{'background-color': "white", 'border': '1px solid #ddd'})
+        .apply(lambda x: ['background-color: #f9f9f9' if i%2==0 else '' for i in range(len(x))], axis=0), 
         use_container_width=True, 
         height = 250
         )
