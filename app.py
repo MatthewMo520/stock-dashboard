@@ -3,7 +3,6 @@ import pandas as pd
 import yfinance as yf
 import plotly.express as px
 
-st.set_page_config(page_title="Stock Dashboard", layout="centered")
 st.title("Stock Dashboard")
 
 #---- USER INPUT ----#
@@ -65,3 +64,20 @@ with col2:
         file_name=f'{ticker}_data.csv',
         mime='text/csv',
     )
+
+#----PERFORMANCED SUMMARY----#
+st.subheader("Performance Summary")
+if not df['Daily Change %'].dropna().empty:
+    avg_daily_return = df['Daily Change %'].mean()
+    volatility = df['Daily Change %'].std()
+    total_return = ((df['Close'].iloc[-1] / df['Close'].iloc[0]) - 1) * 100
+    rolling_max = df['Close'].cummax()
+    drawdown = ((df['Close'] - rolling_max) / rolling_max) * 100
+    max_drawdown = drawdown.min()
+
+    st.metric(label="Average Daily Return (%)", value=f"{avg_daily_return:.2f}%")
+    st.metric(label="Volatility (Std Dev of Daily Return %)", value=f"{volatility:.2f}%")
+    st.metric(label="Total Return (%)", value=f"{total_return:.2f}%")
+    st.metric(label="Max Drawdown (%)", value=f"{max_drawdown:.2f}%")
+else:
+    st.write("Not enough data to calculate performance metrics.")
