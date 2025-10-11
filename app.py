@@ -86,6 +86,7 @@ if not df['Daily Change %'].dropna().empty:
         color_discrete_sequence=['red']
     )
     drawdown_fig.update_traces(fill='tozeroy')
+    drawdown_fig.update_yaxes(title_text='Drawdown (%)')
     st.plotly_chart(drawdown_fig, use_container_width=True)
 
     #----DISPLAY METRICS IN COLUMNS----#
@@ -96,7 +97,7 @@ if not df['Daily Change %'].dropna().empty:
     col4.metric(label="Max Drawdown (%)", value=f"{max_drawdown:.2f}%")
 
     #----CUMULATIVE RETURN CHART----#
-    df['Cumulative Return %'] = (1 + df['Close'].pct_change()).cumprod() - 1
+    df['Cumulative Return %'] = ((1 + df['Close'].pct_change()).cumprod() - 1) * 100
     cumreturn_fig = px.line(
         df,
         x='Date',
