@@ -55,6 +55,7 @@ col1, col2 = st.columns([7, 3])
 with col1:
     st.plotly_chart(fig, use_container_width=True)
     fig.update_traces(mode='lines+markers', hovertemplate='Date: %{x}<br>Price: %{y:.2f}')
+    st.markdown("---")
 
 with col2:
     st.subheader("Recent Data")
