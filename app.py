@@ -16,7 +16,6 @@ if st.button("Reset Inputs"):
     ticker = "AAPL"
     period = "6mo"
     interval = "1d"
-    st.experimental_rerun()
 
 #----DOWNLOAD DATA ----#
 df = yf.download(ticker, period=period, interval=interval).reset_index()
