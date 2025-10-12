@@ -71,7 +71,7 @@ with col2:
 
     #----DISPLAY DATA TABLE----#
     st.dataframe(
-        df.tail().style.applymap(daily_change_colour, subset=['Daily Change %']), 
+        df.tail(10).style.applymap(daily_change_colour, subset=['Daily Change %']), 
         use_container_width=True, 
         height = 250
         )
@@ -84,6 +84,8 @@ with col2:
         file_name=f'{ticker}_data.csv',
         mime='text/csv',
     )
+
+st.markdown("---")
 
 #----PERFORMANCED SUMMARY----#
 st.subheader("Performance Summary")
