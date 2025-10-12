@@ -54,7 +54,12 @@ fig = px.line(df, x='Date', y=plot_cols, title=f'{ticker} Stock Price with Movin
 col1, col2 = st.columns([7, 3])
 with col1:
     st.plotly_chart(fig, use_container_width=True)
-    fig.update_traces(mode='lines+markers', hovertemplate='Date: %{x}<br>Price: %{y:.2f}')
+    fig.update_traces(
+        mode='lines+markers', 
+        line =dict(width=2),
+        marker=dict(size=4),
+        hovertemplate='Date: %{x}<br>Price: %{y:.2f}'
+        )
 
 with col2:
     st.subheader("Recent Data")
