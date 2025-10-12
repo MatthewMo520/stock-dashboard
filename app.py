@@ -71,9 +71,9 @@ with col2:
 
     #----DISPLAY DATA TABLE----#
     st.dataframe(
-        df.tail(6).style.applymap(daily_change_colour, subset=['Daily Change %']), 
+        df.tail(7).style.applymap(daily_change_colour, subset=['Daily Change %']), 
         use_container_width=True, 
-        height = 300
+        height = 290
         )
 
     #----CONVERT TO CSV----#
