@@ -134,8 +134,17 @@ if not df['Daily Change %'].dropna().empty:
     st.plotly_chart(cumreturn_fig, use_container_width=True)
 
     #----HOVER INFO----#
-    cumreturn_fig.update_traces(mode='lines+markers', hovertemplate='Date: %{x}<br>Cumulative Return: %{y:.2f}%')
-    drawdown_fig.update_traces(mode='lines+markers', hovertemplate='Date: %{x}<br>Drawdown: %{y:.2f}%')
+    cumreturn_fig.update_traces(
+        mode='lines+markers', 
+        line =dict(width=2),
+        marker=dict(size=4),
+        hovertemplate='Date: %{x}<br>Cumulative Return: %{y:.2f}%'
+        )
+    drawdown_fig.update_traces(
+        mode='lines+markers', 
+        line =dict(width=2),
+        marker=dict(size=4),
+        hovertemplate='Date: %{x}<br>Drawdown: %{y:.2f}%')
 
 else:
     st.write("Not enough data to calculate performance metrics.")
