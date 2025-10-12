@@ -14,7 +14,7 @@ interval = st.selectbox("Select interval:", ["1d", "1wk", "1mo"])
 
 if st.button("Reset Inputs"):
     st.experimental_rerun()
-    
+
 #----DOWNLOAD DATA ----#
 df = yf.download(ticker, period=period, interval=interval).reset_index()
 
@@ -94,6 +94,14 @@ with col2:
     )
 
 st.markdown("---")
+
+st.info("""
+**Performance Metrics Explained:**
+- **Average Daily Return:** The average percentage change in the stock price on a daily basis.
+- **Volatility:** The standard deviation of daily returns, indicating how much the stock price fluctuates. (Higher means more price fluctuation)
+- **Total Return:** The overall percentage change in the stock price over the selected period.
+- **Max Drawdown:** The largest drop from a peak to a trough in the stock price, indicating potential risk.
+""")
 
 #----PERFORMANCED SUMMARY----#
 st.subheader("Performance Summary")
