@@ -12,6 +12,9 @@ ticker = st.text_input("Enter a stock ticker (e.g., AAPL, TSLA, AMZN):", "AAPL")
 period = st.selectbox("Select period:", ["1mo", "3mo", "6mo", "1y", "2y", "5y", "10y", "max"], index=3)
 interval = st.selectbox("Select interval:", ["1d", "1wk", "1mo"])
 
+if st.button("Reset Inputs"):
+    st.experimental_rerun()
+    
 #----DOWNLOAD DATA ----#
 df = yf.download(ticker, period=period, interval=interval).reset_index()
 
@@ -148,6 +151,3 @@ if not df['Daily Change %'].dropna().empty:
 
 else:
     st.write("Not enough data to calculate performance metrics.")
-
-if st.button("Reset Inputs"):
-    st.experimental_rerun()
