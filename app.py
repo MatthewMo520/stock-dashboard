@@ -73,7 +73,7 @@ with col2:
     st.dataframe(
         df.tail(7).style.applymap(daily_change_colour, subset=['Daily Change %']), 
         use_container_width=True, 
-        height = 280
+        height = 285
         )
 
     #----CONVERT TO CSV----#
