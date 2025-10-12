@@ -12,11 +12,6 @@ ticker = st.text_input("Enter a stock ticker (e.g., AAPL, TSLA, AMZN):", "AAPL")
 period = st.selectbox("Select period:", ["1mo", "3mo", "6mo", "1y", "2y", "5y", "10y", "max"], index=3)
 interval = st.selectbox("Select interval:", ["1d", "1wk", "1mo"])
 
-if st.button("Reset Inputs"):
-    ticker = "AAPL"
-    period = "6mo"
-    interval = "1d"
-
 #----DOWNLOAD DATA ----#
 df = yf.download(ticker, period=period, interval=interval).reset_index()
 
@@ -129,13 +124,14 @@ if not df['Daily Change %'].dropna().empty:
     col4.metric(label="Max Drawdown (%)", value=f"{max_drawdown:.2f}%")
 
     #----EXTRA INFORMATION ABOUT METRICS----#
-    st.info("""
-**Performance Metrics Explained:**
-- **Average Daily Return:** The average percentage change in the stock price on a daily basis.
-- **Volatility:** The standard deviation of daily returns, indicating how much the stock price fluctuates. (Higher means more price fluctuation)
-- **Total Return:** The overall percentage change in the stock price over the selected period.
-- **Max Drawdown:** The largest drop from a peak to a trough in the stock price, indicating potential risk.
-""")
+    with st.expander("What do these metrics mean?"):
+        st.info("""
+        **Performance Metrics Explained:**
+        - **Average Daily Return:** The average percentage change in the stock price on a daily basis.
+        - **Volatility:** The standard deviation of daily returns, indicating how much the stock price fluctuates. (Higher means more price fluctuation)
+        - **Total Return:** The overall percentage change in the stock price over the selected period.
+        - **Max Drawdown:** The largest drop from a peak to a trough in the stock price, indicating potential risk.
+        """)
     
     #----CUMULATIVE RETURN CHART----#
     df['Cumulative Return %'] = ((1 + df['Close'].pct_change()).cumprod() - 1) * 100
