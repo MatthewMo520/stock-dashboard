@@ -148,3 +148,6 @@ if not df['Daily Change %'].dropna().empty:
 
 else:
     st.write("Not enough data to calculate performance metrics.")
+
+if st.button("Reset Inputs"):
+    st.experimental_rerun()
